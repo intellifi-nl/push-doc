@@ -6,9 +6,26 @@ Technical description of communication that takes place between an Intellifi spo
 Outbound strategy
 -----------------
 
-The Intellifi spots create and maintain their own TCP/IP connection to the configured server. This is an important advantage in networks that are connected to the internet. Most of these networks use a router to access the internet (this is called [NAT](http://en.wikipedia.org/wiki/Network_address_translation)). By default a router will not allow any inbound traffic to your network. Outbound traffic however is always allowed. The Intellifi Spots use an outbound socket connection to get through the router to the configured server. The fact that we use HTTP to upload the events also helps, it makes it even more unlikely that the traffic is blocked. It's exacltly the same mechamism as browsing the internet. As a result of these design choices configuring an Intellifi Spot is just a matter of plug and play.
+The Intellifi spots create and maintain their own TCP/IP connection to the configured server. This is an important advantage in networks that are connected to the internet. Most of these networks use a router to access the internet (more info: [NAT](http://en.wikipedia.org/wiki/Network_address_translation)). By default a router will not allow any inbound traffic to your network. Outbound traffic however is always allowed. The Intellifi Spots use an outbound socket connection to get through the router to the configured server. The fact that we use HTTP to upload the events also helps, it makes it even more unlikely that the traffic is blocked. It's exacltly the same mechamism as browsing the internet. As a result of these design choices configuring an Intellifi Spot is just a matter of plug and play.
 
 It's obviously not required to connect to the server through the internet, you can also connect to a computer inside your local network. Our 'outband' strategy is also a big advantage on internal networks. You won't have to administer the ip addresses of your spots, they all will automatically connect to your server. 
+
+Events
+------
+
+On the wire [JSON](http://www.json.org/) is used to represent the spot events. In this document basic knowledge of JSON is assumed. An event shall always take this form:
+
+```JSON
+["resource_type","action",{}]\n\n
+```
+
+TODO: Create a table for this
+spot,create (information about the spot)
+config,create (configuration of the reader, a collection of key/value pairs that may grow in the future)
+presence,create (whever a new item has been seen, always includes the first value)
+presence,update (whenever the proximity changes)
+presence,delete (when you didn't receive a hit for x seconds. Where x is the hold_time_s)
+hit,create (single tag read on a certain antenna, avaialble for debugging purpose)
 
 Example
 -------
