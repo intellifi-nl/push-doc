@@ -1,7 +1,7 @@
 Push documentation
 ==================
 
-We offer a product that allows you to 'sense' events arround you. It is our strong believe that this should be a fast and smooth experience. If you bring an item to one of our antennas then you should immediatly see a response. We try to keep to overall latency lower than 100 milliseconds. All elements in the chain have been optimised to bring the event to you as fast as possible. We, and others, call this **push**. Events are pushed as soon as they are available. In this repository we describe all levels of events. We start with the spot protocol and end with the websocket protocol that transfers the event to your internet browser.
+We offer a product that allows you to 'sense' events arround you. It is our strong believe that this should be a fast and smooth experience. If you bring an item to one of our antennas then you should immediatly see a response. We try to keep to overall latency lower than 100 milliseconds. All elements in the chain have been optimised to bring the event to you as fast as possible. We, [and others](http://en.wikipedia.org/wiki/Push_technology), call this **push**. Events are pushed as soon as they are available. In this repository we describe all levels of events. We start with the spot protocol and end with the websocket protocol that transfers the event to your internet browser.
 
 Spot protocol
 -------------
@@ -20,6 +20,13 @@ We have choosen MQTT as our protocol for accessing the message bus. This protoco
 You can connect to this message bus with your own applicaton if you wish.
 
 TODO: Elaborate on this!
+
+Webhooks
+--------
+
+We have plans to support [webhooks](http://en.wikipedia.org/wiki/Webhook) in the future. You can add your own server address to our server and then we perform an HTTP request as soon as a certain event takes place. This would make it very easy to integrate services that don't need to much information. You could get an web API call that turned on the light when you are entering your office for example.
+
+We are planning to follow the [resthooks] (http://resthooks.org/) guidelines. Please let us know if you are very eager to have this. We have a lot of idears but we can't implement all of them at the same time.
 
 Websocket
 ---------
