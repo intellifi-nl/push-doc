@@ -10,6 +10,18 @@ Why?
 * It's more robust because of the definition files (`.proto` files). All fields in the messages are defined in these seperate file. These files will be made avaialble inside this repository once ready. It's always possible to add new fields and every encoded field includes it's type. So it's not possible to misread them. Even for future versions.
 * It's way more compact, especially in low bandwidth situations it's important to be carefull with the number of bytes that you transmit.
 
+New events
+----------
+
+We are planning to add an intresting set of new events:
+* Antenna presences
+* Hit reports
+* Sense changes
+* Brain senses
+* Item set changes
+* Test pings
+* Log messages
+
 Optimizations
 -------------
 
