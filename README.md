@@ -1,7 +1,9 @@
 Push documentation
 ==================
 
-We offer a product that allows you to 'sense' events arround you. It is our strong believe that this should be a fast and smooth experience. If you bring an item to one of our antennas then you should immediatly see a response. We try to keep to overall latency lower than 100 milliseconds. All elements in the chain have been optimised to bring the event to you as fast as possible. We, [and others](http://en.wikipedia.org/wiki/Push_technology), call this **push**. Events are pushed as soon as they are available. In this repository we describe all levels of events. We start with the low level spot protocol and end with the websocket protocol that transfers the event to your internet browser.
+We offer a product that allows you to 'sense' events arround you. It is our strong believe that this should be a fast and smooth experience. If you bring an item to one of our antennas then you should immediatly see a response. We try to keep to overall latency lower than 100 milliseconds. All elements in the chain have been optimised to bring the event to you as fast as possible. We, [and others](http://en.wikipedia.org/wiki/Push_technology), call this **push**. 
+
+Events are pushed as soon as they are available. In this repository we describe all levels of events. We start with the low level spot protocol and end with the websocket protocol that transfers the event to your internet browser. All these protocols and descriptions are based on subscribing and following events. If you just want to request the current state then you should query our [Web API](https://github.com/intellifi-nl/doc-webapi).
 
 Spot protocol
 -------------
