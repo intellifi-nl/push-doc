@@ -5,7 +5,7 @@ This document elaborates the JSON encoding that we currently use in our embedded
 
 This protocol is used for communicaton between the spot and the Brain server. But also for communication between our spots and the Intellifi Dashboard.
 
-Important: The JSON protocol is not actively developed anymore. In the coming months we are planning to switch to a protocol buffers based protocol. We will elaborate this on [this](spot_protocol_pb.md) when ready.
+Important: The JSON protocol is not actively developed anymore. In the coming months we are planning to switch to a protocol buffers based protocol. We will elaborate this on [this page](spot_protocol_pb.md) when ready.
 
 Framing
 -------
@@ -16,7 +16,7 @@ An event shall be transmitted in this format:
 ["resource_type","action",{}]\n\n
 ```
 
-The combination of a `resource_type`, `action` and a valid JSON object defines an event. You may recognise the used resources from the webapi description. This is no coincidence, we are trying to connect our abstractions where we can. In this protocol the `resource_type` is always a noun in it's singular form (other protocol use the plural). The `action` is a verb that is applied to the resource. This can be "create", "update" and "delete".
+The combination of a `resource_type`, `action` and a valid JSON object defines an event. You may recognise the used resources from the [web API description](https://github.com/intellifi-nl/doc-webapi). This is no coincidence, we are trying to connect our abstractions where we can. In this protocol the `resource_type` is always a noun in it's singular form (other protocol use the plural). The `action` is a verb that is applied to the resource. This can be "create", "update" and "delete".
 
 General remarks:
 * The message shall always be ended by a double line feed (\n\n). This effectively makes the protocol readable by humans and makes it easy to find messages in a stream. 
