@@ -3,6 +3,10 @@ Spot protocol JSON
 
 This document elaborates the JSON encoding that we currently use in our embedded devices. Please make sure that you are familiar with the [spot protocol basics](spot_protocol.md) before diving into these details. In this document knowledge of [JSON](http://www.json.org/) is assumed. 
 
+This protocol is used for communicaton between the spot and the Brain server. But also for communication between our spots and the Intellifi Dashboard.
+
+Important: The JSON protocol is not actively developed anymore. In the coming months we are planning to switch to a protocol buffers based protocol. We will elaborate this on [this](spot_protocol_pb.md) when ready.
+
 Framing
 -------
 
@@ -12,7 +16,7 @@ An event shall be transmitted in this format:
 ["resource_type","action",{}]\n\n
 ```
 
-The combination of a `resource_type`, `action` and a valid JSON object defines an event. You may recognise the used resources from the webapi description. This is no coincidence, we are trying to connect our abstractions where we can. In this protocol the `resource_type` is always a noun in it's singular form (other protocol use the plural). The `action` is a verb that is applied to the action. This can be "create", "update" and "delete".
+The combination of a `resource_type`, `action` and a valid JSON object defines an event. You may recognise the used resources from the webapi description. This is no coincidence, we are trying to connect our abstractions where we can. In this protocol the `resource_type` is always a noun in it's singular form (other protocol use the plural). The `action` is a verb that is applied to the resource. This can be "create", "update" and "delete".
 
 General remarks:
 * The message shall always be ended by a double line feed (\n\n). This effectively makes the protocol readable by humans and makes it easy to find messages in a stream. 
@@ -23,9 +27,7 @@ General remarks:
 Events
 ------
 
-The JSON protocl is not actively beeing developed a this moment. Therefore a limited set of events is supported. They are defined in the column below. The dir column defines the direction in which the message is send. From device to server is defined as up, from server to device is defined as down.
-
-Commands avaialble from spot to server (upstream):
+Most events flow from the spot to the server, upstream. These events are avaialble:
 
 | `resource_type` | `action` | description |
 | --------------- | -------- | ----------- |
@@ -38,7 +40,7 @@ Commands avaialble from spot to server (upstream):
 | presence        | update | The proximity of an item changed. |
 | presence        | delete | Item has not been seen for x seconds, x can be configured by the `hold_delay_s` config setting. |
 
-Commands available from server to spot (downstream):
+It's possible to 'command' the spot by sending events from the server to the spot. These are called commands or downstream events. At this moment we support these commands:
 
 | `resource_type` | `action` | description |
 | --------------- | -------- | ----------- |
@@ -52,9 +54,11 @@ The actual JSON objects send are defined by example in paragraph below. Please n
 Example
 -------
 
-This example has been acquired by setting up a telnet session to a reader. This can only be done when the `telnet` setting is configured to true (by defaults it's false, for security reasons).
+This example has been acquired by setting up a telnet session to an Intellifi Spot. This can only be done when the `telnet` setting is configured to true (by defaults it's false, for security reasons).
 
-Please note that the `["spot","update",{"online":true}]` are send every second in telnet mode only. You will not see these messages in HTTP mode.
+Please note that the ```["spot","update",{"online":true}]``` are send every second in telnet mode only. You will not see these messages in HTTP mode.
+
+Also note the the `config` object is far from complete, the latest versions of the Spot software offer more settings that can be configured. The basics stay the same however, they are just extra key / value pairs that where added to the config object.
 
 ```JSON
 ["spot","create",{
