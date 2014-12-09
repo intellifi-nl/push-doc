@@ -1,7 +1,7 @@
 PB Spot protocol
 ================
 
-JSON is a very accessible encoding but it's also way more verbose than a binary protocol. In the [spot server communication](spot_protocol.pb) we will replace the JSON with [protocol buffers](https://developers.google.com/protocol-buffers/). On the higher layers JSON will keep it's important role offcourse.
+JSON is a very accessible encoding but it's also way more verbose than a binary protocol. In the [spot server communication](spot_protocol.md) we will replace the JSON with [protocol buffers](https://developers.google.com/protocol-buffers/). On the higher layers JSON will keep it's important role offcourse.
 
 Why?
 ----
