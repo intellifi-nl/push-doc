@@ -1,5 +1,5 @@
-Spot protocol JSON
-------------------
+JSON Spot protocol 
+==================
 
 This document elaborates the JSON encoding that we currently use in our embedded devices. Please make sure that you are familiar with the [spot protocol basics](spot_protocol.md) before diving into these details. In this document knowledge of [JSON](http://www.json.org/) is assumed. 
 
