@@ -1,7 +1,7 @@
 Spot protocol
 =============
 
-Technical description of communication that takes place between an Intellifi Spot and a server. Good knowledge of TCP/IP and [HTTP](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) is assumed in this document.
+Technical description of communication that takes place between an Intellifi Spot and a server. Knowledge of TCP/IP and [HTTP](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) is assumed in this document.
 
 You don't need to read this page if you are using the Intellifi Brain to acquire your events.
 
@@ -22,11 +22,11 @@ In the rest of the document we will refer to these protocols as the `spot protoc
 HTTP
 ----
 
-HTTP comes with a lot of overhead if you would do a single post for every event (a spot can easily generate more than 100 events per second). The required headers for every post are responsible for this. That's why we encode the events with the earlier mentioned `spot protocol`. It allows us to send multiple events in a single post action. We are basically wrapping the `spot protocol` into HTTP.
+HTTP comes with a lot of overhead if you would do a single post for every event (a spot can easily generate more than 100 events per second). The required headers for every post are responsible for this. That's why we encode the events with the earlier mentioned `spot protocol`. It allows us to send multiple events in a single HTTP post. We are basically wrapping the `spot protocol` into HTTP.
 
-We are using an extension of HTTP 1.1 to push events to the server as fast as possible. This is called [chunked encoding](http://en.wikipedia.org/wiki/Chunked_transfer_encoding). An HTTP post is started and kept 'open' for 1 second. Every event that is generated is directly written to the socket as one or more chunks (depending on size). The HTTP endpoint at the server is served by a [Node.js](http://nodejs.org/) application. Node.js has an event based architecture and directly provides us with events as chunks come in. As soon as the running HTTP post is 'finished' by the spot the server can write the downstream events (or commands) to the spot (if any avaialble). The spot immeditaly starts a new 'streaming' HTTP post when the post is finished. This approach gives serious presendence to upstream events, for now this is a good thing. Almost all events are upstream. Pleae take a look at the last paragraph for planned improvements on this approach.
+We are using an extension of HTTP 1.1 to push events to the server as fast as possible. This extension is called [chunked encoding](http://en.wikipedia.org/wiki/Chunked_transfer_encoding). An HTTP post is started and kept 'open' for 1 second. Every event that is generated is directly written to the socket as one or more chunks (depending on size). The HTTP endpoint at the server is served by a [Node.js](http://nodejs.org/) application. Node.js has an event based architecture and directly provides us with events as chunks come in. As soon as the running HTTP post is 'finished' by the spot the server can write the downstream events (or commands) to the spot (if any avaialble). The spot immeditaly starts a new 'streaming' HTTP post when the post is finished. This approach gives serious presendence to upstream events, for now this is a good thing. Almost all events are upstream. Pleae take a look at the last paragraph for planned improvements on this approach.
 
-A big advantage of HTTP is that additional information can be encoded in the headers. We do add the software version of the client (in the `User-Agent` header) and we add the used `spot protocol` that is used (in the `Accept` and `Content-type` headers):
+A big advantage of HTTP is that additional information can be encoded in the headers. We do add the software version of the client (in the `User-Agent` header) and we add the used `spot protocol` (in the `Accept` and `Content-type` headers):
 
 * JSON spot protocol: `text/x-intellifi-events`
 * PB spot protocol: `application/x-intellifi-events-pb`
@@ -140,14 +140,14 @@ Please do note that bigger messages are send in multiple chunks. We **don't** gu
 Telnet (debugging)
 ------------------
 
-You may enable a telnet server on the spot for a direct connection on TCP port 23. This will allow you to receive the `spot protocol` on your terminal or in custom application. We do not advice you to use this option for production environments. It's not encrypted nor it's protected by a password. It also requires you to administer all the ip addresses of your Spots. It's turned off by default.
+You may enable a telnet server on the spot for a direct connection on TCP port 23. This will allow you to receive the `spot protocol` on your terminal or in your own application. We do not advice you to use this option for production environments. It's not encrypted nor it's protected by a password. It also requires you to administer all the ip addresses of your Spots. It's turned off by default.
 
 Implementing SSH would solve some of the mentioned problems. At this moment we don't plan to do this. (As a consequence of our strong believe in the earlier mentioned 'outbound' strategy.)
 
 Security
 --------
 
-HTTP is currently the default way of connecting to a server. It's a small step to run this over an SSL connection. This would encrypt all data between spot and server. We are planning to support SSL on spot level in the coming year. Experiments already have shown that this is a feasible step. For this moment we advice to run Intellifi Spots only inside a 'protected' network. This could be your office network or a VPN based network.
+HTTP is currently the default way of connecting to a server. It's a small step to run this over an SSL connection. This would encrypt all data between spot and server. We are planning to support SSL in the embedded client in the coming year. Experiments already have shown that this is a feasible step. For this moment we advice to run Intellifi Spots only inside a 'protected' network. This could be your office network or a VPN based network.
 
 Authenticaton is also beeing worked on, we are planning to solve this with known strategies on the HTTP level. This would also fit in the planned upgrade to websockets.
 
