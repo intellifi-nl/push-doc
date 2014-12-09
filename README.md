@@ -1,7 +1,7 @@
 Push documentation
 ==================
 
-We offer a product that allows you to 'sense' events arround you. It is our strong believe that this should be a fast and smooth experience. If you bring an item to one of our antennas then you should immediatly see a response. We try to keep to overall latency lower than 100 milliseconds. All elements in the chain have been optimised to bring the event to you as fast as possible. We, [and others](http://en.wikipedia.org/wiki/Push_technology), call this **push**. Events are pushed as soon as they are available. In this repository we describe all levels of events. We start with the spot protocol and end with the websocket protocol that transfers the event to your internet browser.
+We offer a product that allows you to 'sense' events arround you. It is our strong believe that this should be a fast and smooth experience. If you bring an item to one of our antennas then you should immediatly see a response. We try to keep to overall latency lower than 100 milliseconds. All elements in the chain have been optimised to bring the event to you as fast as possible. We, [and others](http://en.wikipedia.org/wiki/Push_technology), call this **push**. Events are pushed as soon as they are available. In this repository we describe all levels of events. We start with the low level spot protocol and end with the websocket protocol that transfers the event to your internet browser.
 
 Spot protocol
 -------------
@@ -19,7 +19,7 @@ We have choosen MQTT as our protocol for accessing the message bus. This protoco
 
 You can connect to this message bus with your own applicaton if you wish.
 
-TODO: Elaborate on this!
+We shall add an description of the avaialble MQTT topics soon.
 
 Webhooks
 --------
@@ -33,4 +33,8 @@ Websocket
 
 We strongly believe in easy accessible events on all levels. That's why we build an websocket server that directly plugs in to the message bus. All messages can be accessed from within a browser. This makes it very easy to create interactive websites that support pushing.
 
-TODO: Elaborate on this!
+We are using [socket.io](http://socket.io/) to accomplish this (a Node.js library).
+
+You can send a `subscribe` command with a JSON object `{"topic":"spots/#"}` to subscribe yourself to some topic on the message bus. The given example would show you all events that are directly transmitted by the spots.
+
+The events are send to you by a `message` command.
