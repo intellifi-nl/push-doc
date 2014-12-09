@@ -26,12 +26,111 @@ HTTP comes with a lot of overhead if you would do a single post for every spot e
 
 We are using an extension of HTTP 1.1 to push events to the server as fast as possible. This is called [chunked encoding](http://en.wikipedia.org/wiki/Chunked_transfer_encoding). An HTTP post is started and kept 'open' for 1 second. Every event that is generated is directly written to the socket as a seperate chunk. The HTTP endpoint at the server is served by a [Node.js](http://nodejs.org/) application. Node.js has an event based architecture and directly provides us with events as chunks come in. As soon as the HTTP post is 'finished' by the spot the server can write the downstream events (or commands) to the spot (if any avaialble). This approach gives serious presendence to upstream events, for now this is a good thing. Almost all events are upstream. Pleae take a look at the last paragraph for planned improvements on this approach.
 
-A big advantage of HTTP is that additional information can be encoded in the headers. TODO: Elaborate on protocl headers.
+A big advantage of HTTP is that additional information can be encoded in the headers. We do add the software version of the spot and the spot protocol version. As shown in the example that was acquired with spot number 203:
 
-Example:
 ```HTTP
-TODO
+POST /api/spots/203/events/ HTTP/1.1
+Host: 192.168.0.10
+User-Agent: spot/35-42-g0388fd9-dirty
+Transfer-Encoding: chunked
+Accept: text/x-intellifi-events
+Content-Type: text/x-intellifi-events
+Cache-Control: no-cache
+
+132
+["spot","create",{
+"spot_id":203,
+"version":"35-42-g0388fd9-dirty",
+"pcb_version":3,
+"online":true,
+"dip_mask":6,
+"rfid_swr":[6911,7935,839,601,5631,5631,544],
+"boot_count":9347,
+"watchdog_count":834,
+"presence_create_count":256716,
+"time_started":"2014-12-09T12:11:00Z",
+"time":"2014-12-09T12:12:53Z"
+}]
+
+
+1f4
+["config","create",{
+	"rfid_power_dbm":	30,
+	"rfid_continues":	true,
+	"rfid_channel":	1,
+	"rfid_region":	1,
+	"rfid_period_ms":	250,
+	"max_antenna_swr":	3500,
+	"antenna_disable_mask":	64,
+	"scramble_item_codes":	false,
+	"rfid_immediate":	-550,
+	"rfid_near":	-650,
+	"rfid_hysteresis":	25,
+	"rfid_max_window_size":	1,
+	"rfid_target":	0,
+	"rfid_action":	0,
+	"rfid_dr":	1,
+	"rfid_m":	2,
+	"rfid_sel":	1,
+	"rfid_session":	1,
+	"rfid_min_q":	0,
+	"rfid_max_q":	15,
+	"rfid_blf":	3,
+	"bt_immediate":	-550,
+	"bt_n
+1f4
+ear":	-650,
+	"bt_hysteresis":	30,
+	"bt_max_window_size":	10,
+	"auto_hold_delay":	true,
+	"fixed_hold_delay_s":	10,
+	"control_schema":	{
+		"links":	{
+			"snd2":	"boot",
+			"ledg":	"tick",
+			"ledr":	"hit",
+			"out1":	"hit",
+			"out2":	"hit",
+			"ledfg":	"in1",
+			"ledfr":	"in2"
+		}
+	},
+	"brain_address":	"192.168.0.10",
+	"dashboard_address":	"dashboard.intellifi.nl",
+	"dashboard_reconnect":	true,
+	"dashboard_period_s":	900,
+	"alive_ds":	10,
+	"use_dhcp":	true,
+	"ip":	"192.168.0.118",
+	"subnet":	"255
+a0
+.255.255.0",
+	"gateway":	"192.168.0.1",
+	"dns_primary":	"192.168.0.1",
+	"dns_secondary":	null,
+	"telnet":	true,
+	"send_hits":	false,
+	"hostname":	"spot203"
+}]
+
+
+d6
+["presence","create",{
+"item_code":"000000000000000000004409",
+"item_codetype":"EPC Gen2",
+"time_started":"2014-12-09T12:12:49.713Z",
+"time_last":"2014-12-09T12:12:49.713Z",
+"proximity":"far",
+"hold_delay_s":4
+}]
+
+
+0
+
+
 ```
+
+For 
 
 Telnet (debugging)
 ------------------
