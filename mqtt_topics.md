@@ -1,16 +1,16 @@
 MQTT Topics
 ===========
 
-The whole Intellifi instracture is event driven in nature. All events are transfered by the message bus. The big advantage of this is that all messages are also avaialble to request from the message bus.
+The whole Intellifi infrastructure is event driven in nature. All events are transfered by the message bus. The big advantage of this is that all messages are also available to request from the message bus.
 
-MQTT allows one the add a topic to each send message. This topic can be used to request the kind of messages that you would like to subscribe to. This is really needed when your setup grows. Thousands of events per second could flow through the message bus. I can't make up a reason to request them all in a single application.
+MQTT requires that a topic is added to each send message. This topic can be used to request the kind of messages that you would like to subscribe to. This is really needed when your setup grows. Thousands of events per second could flow through the message bus. I can't make up a reason to request them all in a single application.
 
 In the rest of this document knowledge of MQTT is assumed.
 
 Format
 ======
 
-The MQTT topic is 
+The format for an Intellifi MQTT topic is 
 
 `resource`/`id`/`event`
 
@@ -22,7 +22,9 @@ The `event` is a verb that represents the event that took place. i.e. `create`, 
 
 An event string may contain extra slashes. These allow you to make more specific subscriptions.
 
-You can assume that the payload of MQTT messages is an utf8 encoded string with a JSON message. It's specified if this is different.
+You can assume that the payload of MQTT messages is an UTF-8 encoded JSON message. It's specified if this is different.
+
+TODO: Can we always include a timestamp in the payload? In exactly the same way? Would be very handy for saving events into the database. How should we do this with pb events? You could also save the receive time into the database.
 
 Resources
 =========
@@ -32,10 +34,10 @@ Items
 
 Events are send when is changed inside the items resource.
 
-* create: A new item is received in the system.
+* create: New item created. Only when the item has never been seen before.
 * update: An update has been done on the item. This is only send if the label or image where changed?
-* location-update: location_now and/or location_last have been updated.
-* hit/{spot-id}/{antenna-number (or id?!)}: Hit that was received on this item, spot antenna combination. Allows you to subscribe very specifically!
+* location-update: `location_now` and/or `location_last` fields have been updated. The old values are also included in the change message.
+* hit/`spot-id`/`antenna-number`: Hit that was received on this item, spot antenna combination. Allows you to subscribe very specifically!
   * Example: items/48787f90s/hit/203/3
 
 Spots
@@ -57,7 +59,7 @@ Presences
 ---------
 
 * create: new presence was created.
-* proximity-change: proximity was changed
+* proximity-change: proximity was changed, should also include previous value in the payload so that we also can react on that.
 * delete: presence with given id is now deleted.
 
 Todo
