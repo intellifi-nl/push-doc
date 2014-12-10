@@ -21,7 +21,7 @@ We have choosen MQTT as our protocol for accessing the message bus. This protoco
 
 You can connect to this message bus with your own applicaton if you wish.
 
-You can find a [description of available topics and messages on this page](mqtt_topics).
+You can find a [description of available topics and messages on this page](mqtt_topics.md).
 
 Webhooks
 --------
