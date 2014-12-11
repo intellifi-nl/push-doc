@@ -10,15 +10,15 @@ In the rest of this document knowledge of MQTT is assumed.
 Format
 ======
 
-The format for an Intellifi MQTT topic is 
+The format for an Intellifi MQTT topic string is 
 
-`resource`/`id`/`event`
+`resource-type`/`id`/`action`
 
-The `resource` is the plural form of a noun, this is done so that we have the same naming scheme as in the [web API resources](https://github.com/intellifi-nl/doc-webapi#resources).
+The `resource-type` is the plural form of a noun, this is done so that we have the same naming scheme as in the [web API resources](https://github.com/intellifi-nl/doc-webapi#resources).
 
 The `id` is the same id as in the resource that you could request with the web API. In most situations this is MongoDB id.
 
-The `event` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level.
+The `action` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level.
 
 An event string may contain extra slashes. These allow you to make more specific subscriptions.
 
