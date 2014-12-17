@@ -12,13 +12,16 @@ Format
 
 The format for an Intellifi MQTT topic string is 
 
-`resource-type`/`id`/`action`
+* `resource-type`/`id`/`action`
+* `resource-type`/`id`/`id_short`/`action`
 
 The `resource-type` is the plural form of a noun, this is done so that we have the same naming scheme as in the [web API resources](https://github.com/intellifi-nl/doc-webapi#resources).
 
-The `id` is the same id as in the resource that you could request with the web API. In most situations this is MongoDB id.
+The `id` is the same id as in the resource that you could request with the web API.
 
-The `action` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level.
+The `id_short` is optional. It must be a number. It could indicate the serial number of the spot, or the antenna number for the hit.
+
+The `action` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level. It is not allowed to start the `action` string with a number (we could not see the difference between an `action` and an `id_short`. The `action` string may contain multiple levels (i.e. 'level1/level2/level3').
 
 An event string may contain extra slashes. These allow you to make more specific subscriptions.
 
