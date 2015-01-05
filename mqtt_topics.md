@@ -36,6 +36,8 @@ Events are send when is changed inside the items resource.
 
 * create: New item created. Only when the item has never been seen before.
 * update: An update has been done on the item. This is only send if the label or image where changed?
+* appear: An item is detected by our systems. It's now present.
+* disappear: An item has not been detected by our systems, we really don't know where it currently is. It's not present anymore.
 * location-update: `location_now` and/or `location_last` fields have been updated. The old values are also included in the change message.
 * hit/`spot-id`/`antenna-number`: Hit that was received on this item, spot antenna combination. Allows you to subscribe very specifically!
   * Example: items/48787f90s/hit/203/3
