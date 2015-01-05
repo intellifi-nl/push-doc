@@ -1,7 +1,7 @@
 MQTT Topics
 ===========
 
-The whole Intellifi infrastructure is event driven in nature. All events are transfered by the message bus. The big advantage of this is that all messages are also available to request from the message bus.
+The whole Intellifi infrastructure is event driven in nature. All events are transfered by the message bus.
 
 MQTT requires that a topic is added to each send message. This topic can be used to request the kind of messages that you would like to subscribe to. This is really needed when your setup grows. Thousands of events per second could flow through the message bus. I can't make up a reason to request them all in a single application.
 
@@ -12,20 +12,17 @@ Format
 
 The format for an Intellifi MQTT topic string is 
 
-* `resource-type`/`id`/`action`
-* `resource-type`/`id`/`id_short`/`action`
+* `resource-type`/`id`/`action`/`optional arguments`
 
 The `resource-type` is the plural form of a noun, this is done so that we have the same naming scheme as in the [web API resources](https://github.com/intellifi-nl/doc-webapi#resources).
 
 The `id` is the same id as in the resource that you could request with the web API.
 
-The `id_short` is optional. It must be a number. It could indicate the serial number of the spot, or the antenna number for the hit.
+The `action` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level. 
 
-The `action` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level. It is not allowed to start the `action` string with a number (we could not see the difference between an `action` and an `id_short`. The `action` string may contain multiple levels (i.e. 'level1/level2/level3').
+The `optional arguments` may be added and can contain multiple levels. All these levels can be used to subscribe. It depends on the given action which levels are avaialble. In events that come from the spot directly we always add the spot serial number i.e.
 
-An event string may contain extra slashes. These allow you to make more specific subscriptions.
-
-You can assume that the payload of MQTT messages is an UTF-8 encoded JSON message. It's specified if this is different.
+In most messages the payload of MQTT messages is an UTF-8 encoded JSON message. Every action is specified and will mention a possible different payload if it's different.
 
 TODO: Can we always include a timestamp in the payload? In exactly the same way? Would be very handy for saving events into the database. How should we do this with pb events? You could also save the receive time into the database.
 
@@ -48,15 +45,15 @@ Spots
 
 Events are send when something changes in the spot resources, and when events are received on the spot.
 
-* request-complete: Full HTTP post request has been 
-* connect: Spot just came online and connected to the brain.
-* disconnect: Spot went offline and does not have an active connection with the brain anymore.
+* request-complete/`spot-serial-number`: Full HTTP post request has been 
+* connect/`spot-serial-number`: Spot just came online and connected to the brain.
+* disconnect/`spot-serial-number`: Spot went offline and does not have an active connection with the brain anymore.
 
 The spot protocol events are directly transmitted on the message bus. Both the JSON as the PB protocol have their place in this definition. This will allow us to have a transistion period between the protocols. Please don't rely on these messages. They are retransmitted on their webAPI resourec as well. We may change these low level protocols without furher notice!
-* json/`spot-resource`/`spot-action`
-* json-to/`spot-resource`/`spot-action`
-* pb: Direct binary messages as send in the new format. No JSON! The length specifier is not included. That already part of a MQTT message.
-* pb-to: You also need to supply a valid encoded pb message.
+* json/`spot-serial-number`/`spot-resource`/`spot-action`
+* json-to/`spot-serial-number`/`spot-resource`/`spot-action`
+* pb/`spot-serial-number`: Direct binary messages as send in the new format. No JSON! The length specifier is not included. 
+* pb-to/`spot-serial-number`: You also need to supply a valid encoded pb message.
 
 Presences
 ---------
