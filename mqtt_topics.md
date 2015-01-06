@@ -47,20 +47,13 @@ Spots
 
 Events are send when something changes in the spot resources, and when events are received on the spot.
 
-* request-complete/`spot-serial-number`: Full HTTP post request has been 
 * connect/`spot-serial-number`: Spot just came online and connected to the brain.
 * disconnect/`spot-serial-number`: Spot went offline and does not have an active connection with the brain anymore.
-
-The spot protocol events are directly transmitted on the message bus. 
-* json/`spot-serial-number`/`spot-resource`/`spot-action`
-* json-to/`spot-serial-number`/`spot-resource`/`spot-action`
-* pb/`spot-serial-number`: Direct binary messages as send in the new format. No JSON! The length specifier is not included. 
-* pb-to/`spot-serial-number`: You also need to supply a valid encoded pb message.
 
 #### Embedded events
 Low level spot event are directly send over the message bus. Both the low level JSON and PB protocol have their place in this definition. This will allow us to have a transistion period between the protocols.
 
-Two actions on the spots resource have been defined for these events: `from` is used for messages that flow from the embedded client to the server. `to` is defined for messages that are send to the client by the server (also called commands). More abstract we call this the `direction`.
+Two actions on the spots resource have been defined for direct messages: `from` is used for messages that flow from the embedded client to the server. `to` is defined for messages that are send to the client by the server (also called commands). More abstract we call this the `direction`.
 
 The topic definition is: `direction`/`spot-serialnumber`/`encoding`(/`spot-json-resource`/`spot-json-action`)
 
@@ -72,7 +65,15 @@ Examples:
 * PB message received from spot 310: from/310/pb
 * PB message send to spot 310: to/310/pb
 
+PB messages do no include a length prefix, you can use the length indication that is included in the MQTT protocol. One MQTT message always contains one PB message.
+
 **Important note!** Please try to avoid using these low level messages for integrations witht the brain, they may change without further notice. All important events are avaialble on one of the resources.
+
+### Alive messages
+We also send out a message when a full HTTP post request has been received from a spot (action is called `request-complete`). This can be used to check if the spot is still alive. Please note that this is also internal information, you can use the earlier mentioned `connect` and `disconnect` to watch for changes in the spot status.
+
+Example:
+* HTTP post has been received from spot 312: request-complete/312
 
 Presences
 ---------
