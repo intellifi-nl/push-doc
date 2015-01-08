@@ -12,15 +12,15 @@ Format
 
 The format for an Intellifi MQTT topic string is 
 
-* `resource-type`/`id`/`action`/`optional arguments`
+* `resource-type`/`id`/`action`/`arguments`
 
 The `resource-type` is the plural form of a noun, this is done so that we have the same naming scheme as in the [web API resources](https://github.com/intellifi-nl/doc-webapi#resources).
 
 The `id` is the same id as in the resource that you could request with the web API.
 
-The `action` is a verb that represents the event that took place. i.e. `create`, or `request-complete`. A complete list of possible actions is given at resource level. 
+The `action` is a verb that represents the event that took place. i.e. `created`, `moved`, or `completed-request`. Please note that this verb is always placed in simple past, an activitity in the past that is completed but still has influence on the current state. This also allows us to create real english sentences from an event. Something like: `Item324` `moved` to `Room 3` at 12:01.
 
-The `optional arguments` may be added and can contain multiple levels. All these levels can be used to subscribe. It depends on the given action which levels are avaialble. In events that come from the spot directly we always add the spot serial number i.e.
+The `arguments` may be added and can contain multiple levels. All these levels can be used to subscribe. It depends on the given action which levels are avaialble. In events that come from the spot directly we always add the spot serial number as the first element.
 
 In most messages the payload of MQTT messages is an UTF-8 encoded JSON message. Every action is specified and will mention a possible different payload if it's different.
 
@@ -34,11 +34,11 @@ Items
 
 Events are send when is changed inside the items resource.
 
-* create: New item created. Only when the item has never been seen before.
-* update: An update has been done on the item. This is only send if the label or image where changed?
-* appear: An item is detected by our systems. It's now present.
-* disappear: An item has not been detected by our systems, we really don't know where it currently is. It's not present anymore.
-* location-update: `location_now` and/or `location_last` fields have been updated. The old values are also included in the change message.
+* created: New item created. Only when the item has never been seen before.
+* updated: An update has been done on the item. This is only send if the label or image where changed?
+* appeared: An item is detected by our systems. It's now present.
+* disappeared: An item has not been detected by our systems, we really don't know where it currently is. It's not present anymore.
+* moved or updated-location: `location_now` and/or `location_last` fields have been updated. The old values are also included in the change message.
 * hit/`spot-id`/`antenna-number`: Hit that was received on this item, spot antenna combination. Allows you to subscribe very specifically!
   * Example: items/48787f90s/hit/203/3
 
@@ -47,8 +47,8 @@ Spots
 
 Events are send when something changes in the spot resources, and when events are received on the spot.
 
-* connect/`spot-serial-number`: Spot just came online and connected to the brain.
-* disconnect/`spot-serial-number`: Spot went offline and does not have an active connection with the brain anymore.
+* connected/`spot-serial-number`: Spot just came online and connected to the brain.
+* disconnected/`spot-serial-number`: Spot went offline and does not have an active connection with the brain anymore.
 
 #### Embedded events
 Low level spot event are directly send over the message bus. Both the low level JSON and PB protocol have their place in this definition. This will allow us to have a transistion period between the protocols.
@@ -70,17 +70,17 @@ PB messages do no include a length prefix, you can use the length indication tha
 **Important note!** Please try to avoid using these low level messages for integrations witht the brain, they may change without further notice. All important events are avaialble on one of the resources.
 
 ### Alive messages
-We also send out a message when a full HTTP post request has been received from a spot (action is called `request-complete`). This can be used to check if the spot is still alive. Please note that this is also internal information, you can use the earlier mentioned `connect` and `disconnect` to watch for changes in the spot status.
+We also send out a message when a full HTTP post request has been received from a spot (action is called `completed-request`). This can be used to check if the spot is still alive. Please note that this is also internal information, you can use the earlier mentioned `connected` and `disconnected` to watch for changes in the spot status.
 
 Example:
-* HTTP post has been received from spot 312: request-complete/312
+* HTTP post has been received from spot 312: completed-request/312
 
 Presences
 ---------
 
-* create: new presence was created.
-* proximity-change: proximity was changed, should also include previous value in the payload so that we also can react on that.
-* delete: presence with given id is now deleted.
+* created: new presence was created.
+* changed-proximity: proximity was changed, should also include previous value in the payload so that we also can react on that.
+* deleted: presence with given id is now deleted.
 
 Todo
 ----
