@@ -37,6 +37,6 @@ We strongly believe in easy accessible events on all levels. That's why we build
 
 We are using [socket.io](http://socket.io/) to accomplish this (a Node.js library).
 
-You can send a `subscribe` command with a JSON object `{"topic":"spots/#"}` to subscribe yourself to some topic on the message bus. The given example would show you all events that are directly transmitted by the spots.
+You can send a `subscribe` command with a JSON object `{"topic_filter":"spots/#"}` to subscribe yourself to some topic on the message bus. The given example would show you all events that are directly transmitted by the spots. This filter string is formatted as a MQTT subscribe string (`/` for levels, `+` for level wildcard and `#` as 'all that follows' wildcard).
 
-The events are send to you by a `message` command.
+The events are send to you by a `event` command.
