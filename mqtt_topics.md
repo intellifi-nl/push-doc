@@ -27,7 +27,7 @@ The `arguments` may be added and can contain multiple levels. All these levels c
 
 In most messages the payload of MQTT messages is an UTF-8 encoded JSON object. New fields always can be added in the object, your application should be flexible about that.
 
-Avaialble events
+Available events
 ================
 
 We have a very simple web page that you can use to discover events that flow through the sytem: https://brain.intellifi.nl/ws.html, in the background it's using the websocket pusher. Just describe yourself to '#' to see all events.
