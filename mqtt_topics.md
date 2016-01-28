@@ -42,14 +42,15 @@ the `used-http-method` is optional, it's only send when something was changed us
 Items
 -----
 
-* `items`/`id`/created
+* items/`id`/created
   * Send when a new item is created, an item is only created when the brain has never seen it before.
-* `items`/`id`/appeared
+  * `id` contains the id value of the newly created item. You can use this to lookup more information in the web API.
+* items/`id`/appeared
   * The `is_present` field is set to true, this is done when an item has been detected by one of the SmartSpots.
-* `items`/`id`/disappeared
+* items/`id`/disappeared
   * The `is_present` field is set to false, this is done when the item has not been detected by any of the connected SmartSpots.
-* `items`/`id`/moved-to/`location-id`
-  * The `location` field of the item was changed to another value because the item moved to another location. 
+* items/`id`/moved-to/`location-id`
+  * The `location_url` field of the item was changed to another value because the item moved to another location. 
   * The new location is included as the first argument `location-id`.
 
 Spots
@@ -68,7 +69,7 @@ Presences
 ---------
 
 * presences/`id`/created/`item-id`/`location-id`/`proximity`
-  * New presence was created.
+  * New presence was created with given `id`.
   * `item-id` and `locaton-id` are added so that you now which item was detected at which location.
 * presences/`id`/changed-proximity/`item-id`/`location-id`/`new-proximity`/`previous-proximity`/`direction`
   * The proximity of a presence changed.
