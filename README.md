@@ -11,7 +11,7 @@ Webhooks
 
 We support [webhooks](http://en.wikipedia.org/wiki/Webhook) in our product. You can add your own end-point to our server and then we perform an HTTP request as soon as a certain event takes place. This would make it very easy to integrate services that don't need to much information.
 
-The [subscriptions resource](https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) can be used to create/change and delete subscriptions for events you want to receive. You just need to enter your end-point and the topic filter that you want to use. Please note that this subscriptions resource also manages how long events are saved into the database. We always queue events into the internal database so that we can resend events in case your server is not reachable.
+The [subscriptions resource](https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) can be used to create, update and delete subscriptions for events you want to receive. You just need to enter your end-point in target_url and the topic filter that you want to use. Please note that this subscriptions resource also manages how long events are saved into the database. We always queue events into the internal database so that we can resend events in case your server is not reachable.
 
 Websocket
 ---------
