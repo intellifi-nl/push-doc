@@ -18,11 +18,11 @@ Websocket
 
 We strongly believe in easy accessible events on all levels. That's why we build an websocket server that directly plugs in to our server message bus. All messages can be accessed from within a browser. This makes it very easy to create interactive websites that support pushing.
 
-We are using [socket.io](http://socket.io/) to accomplish this (a Node.js library).
+The library [socket.io](http://socket.io/) can be used to implement socketio for the client side (nodejs, javascript, angularjs, etc...).
 
-You can send a `subscribe` command with a JSON object `{"topic_filter":"spots/#"}` to subscribe yourself to a specific topic on the message bus. The given example would show you all events that are directly transmitted by the SmartSpots. This filter string is formatted as a MQTT subscribe string (`/` for levels, `+` for level wildcard and `#` as 'all that follows' wildcard).
+To subscribe to a specific event topic, emit a `subscribe` command with a JSON object `{"topic_filter":"spots/#"}`. The given example would show you all events that are directly transmitted by the SmartSpots. This filter string is formatted as a MQTT subscribe string (`/` for levels, `+` for level wildcard and `#` as 'all that follows' wildcard).
 
-The events are send to you by a `event` command.
+The events are emitted to you by a `event` command.
 
 Example code
 ```javascript
