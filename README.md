@@ -4,37 +4,42 @@ Events are pushed as soon as they are available. In this repository we describe 
 
 Internally we are using a message bus to distribute events, we have create a standard [list with event types](mqtt_topics.md) that you should become familiar with.
 
-Two types of push services are available: Webhooks and Websocket.
+Two types of push services are available: Webhooks and Websockets.
 
 Webhooks
 --------
 
-We support [webhooks](http://en.wikipedia.org/wiki/Webhook) in our product. You can add your own end-point to our server and then we perform an HTTP request as soon as a certain event takes place. This would make it very easy to integrate services that don't need to much information.
+[Webhooks](http://en.wikipedia.org/wiki/Webhook) are used to push event data from the Brain to third-party servers. The Brain will push the event data as a HTTP request as soon as the data is available.
 
-The [subscriptions resource](https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) can be used to create, update and delete subscriptions for events you want to receive. You just need to enter your end-point in target_url and the topic filter that you want to use. Please note that this subscriptions resource also manages how long events are saved into the database. We always queue events into the internal database so that we can resend events in case your server is not reachable.
+The [subscriptions] (https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) resource can be used to create, update and delete subscriptions for events you want to receive. You just need to enter your server end-point in target_url and the topic filter that you want to use. Please note that this subscriptions resource also manages how long events are saved into our database. We always queue events into the internal database so that we can resend events in case your server is not reachable.
 
-Websocket
+Websockets
 ---------
 
-We strongly believe in easy accessible events on all levels. That's why we build an websocket server that directly plugs in to our server message bus. All messages can be accessed from within a browser. This makes it very easy to create interactive websites that support pushing.
+[Websockets](https://en.wikipedia.org/wiki/WebSocket) are mainly used to push events from the Brain direct to web applications. There are several libraries available that can be used to implement Websockets in web applications:
 
-The library [socket.io](http://socket.io/) can be used to implement socketio for the client side (nodejs, javascript, angularjs, etc...).
+Javascript:
+- [socket.io](http://socket.io/)
 
-To subscribe to a specific event topic, emit a `subscribe` command with a JSON object `{"topic_filter":"spots/#"}`. The given example would show you all events that are directly transmitted by the SmartSpots. This filter string is formatted as a MQTT subscribe string (`/` for levels, `+` for level wildcard and `#` as 'all that follows' wildcard).
+AngularJS:
+- [btford.socket-io](https://github.com/btford/angular-socket-io) + socket.io
+- ngSocket
 
-The events are emitted to you by a `event` command.
+To subscribe to a specific event topic, emit a `subscribe` command with a JSON object `{"topic_filter":"items/#"}`. The given example would give you all item events. This filter string is formatted as a MQTT subscribe string (`/` for levels, `+` for level wildcard and `#` as 'all that follows' wildcard).
+
+The events are emitted to you by the `event` command.
 
 Example code
 ```javascript
-var io = require('socket.io')(http);
+// javascript + socket.io
 
-// Subscribe for all spot events
-io.emit('subscribe', `{"topic_filter":"spots/#"}`);
+var socket = io('https://some.brain.com?key=<ApiKey>');
+
+// Subscribe for all item events
+socket.emit('subscribe', `{"topic_filter":"items/#"}`);
 
 // Process event data
-io.on('connection', function(socket){
-  socket.on('event', function(data){
-    console.log('event: ' + data);
-  });
+socket.on('event', function(data){
+  console.log('event: ' + data);
 });
 ```
