@@ -16,7 +16,9 @@ The [subscriptions] (https://github.com/intellifi-nl/webapi-doc/blob/master/reso
 Websockets
 ---------
 
-[Websockets](https://en.wikipedia.org/wiki/WebSocket) are mainly used to push events from the Brain direct to web applications. There are several libraries available that can be used to implement Websockets in web applications:
+[Websockets](https://en.wikipedia.org/wiki/WebSocket) are commonly used to communicate between web server and web applications. The Brain offers the possibility to push events directly to web applications. 
+
+There are several libraries available that can be used to implement Websockets in your web application, a few examples are listed below:
 
 Javascript:
 - [socket.io](http://socket.io/)
@@ -29,7 +31,7 @@ To subscribe to a specific event topic, emit a `subscribe` command with a JSON o
 
 The events are emitted to you by the `event` command.
 
-Example code
+Example code:
 ```javascript
 // javascript + socket.io
 
