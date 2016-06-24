@@ -24,7 +24,7 @@ Javascript:
 - [socket.io](http://socket.io/)
 
 AngularJS:
-- [btford.socket-io](https://github.com/btford/angular-socket-io) + socket.io
+- [btford.socket-io](https://github.com/btford/angular-socket-io) + socket.io ([example](http://briantford.com/blog/angular-socket-io))
 - ngSocket
 
 To subscribe to a specific event topic, emit a `subscribe` command with a JSON object `{"topic_filter":"items/#"}`. The given example would give you all item events. This filter string is formatted as a MQTT subscribe string (`/` for levels, `+` for level wildcard and `#` as 'all that follows' wildcard).
