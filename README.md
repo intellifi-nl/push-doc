@@ -11,7 +11,16 @@ Webhooks
 
 [Webhooks](http://en.wikipedia.org/wiki/Webhook) are used to push event data from the Brain to third-party servers. The Brain will push the event data as a HTTP request as soon as the data is available.
 
-The [subscriptions] (https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) resource can be used to create, update and delete subscriptions for events you want to receive. You just need to enter your server end-point in target_url and the topic filter that you want to use. Please note that this subscriptions resource also manages how long events are saved into our database. We always queue events into the internal database so that we can resend events in case your server is not reachable.
+The [Subscriptions](https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) resource can be used to create, update and delete subscriptions for events you want to receive.
+
+To setup Webhooks create or modify a [Subscription](https://github.com/intellifi-nl/webapi-doc/blob/master/resources.md#subscriptions) and update the fields below: 
+
+| Field | Description | 
+| ----- | ----------- |
+|`target_url`  |Enter your server end-point. If required, this url may also contain: ip port, webroute and/or API Key. For example: http://some.server.com:3000/api/events?key=1234567890. Please note that this address should be accessible from the Brain server.|
+|`topic_filter`|The event filter that you want to use. A list of topics for `topic_filter`can be found here: [MQTT Topics](https://github.com/intellifi-nl/doc-push/blob/master/mqtt_topics.md#format)|
+
+Please note that this subscriptions resource also manages how long events are saved into our database. We always queue events into the internal database so that we can resend events in case your server is not reachable.
 
 Websockets
 ---------
